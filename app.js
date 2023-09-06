@@ -5,6 +5,7 @@ var request = require("request");
 var bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const PORT = process.env.PORT||'5000';
+const axios = require('axios');
 
 var currency = {
     "egypt": "جنيه مصرى",
@@ -52,15 +53,15 @@ app.get("/contact",function (req,res) {
 });
 
 app.post("/contact",function(req,res){
-
-    var link = "https://script.google.com/macros/s/AKfycbz0rycsE1MnAg82Bi6KDKeG7K0lLK0bGaetoEEngQACd2_XP2RpnEzzNONLVF3vt5Ew/exec?gid=0"
-    var name = req.body.name;
-    var comment = req.body.comment;
-    var email = req.body.comment;
-
-
-    link = link+ "&name="
-    res.render("campgrounds/contact");
+    axios.get('https://script.google.com/macros/s/AKfycbz0rycsE1MnAg82Bi6KDKeG7K0lLK0bGaetoEEngQACd2_XP2RpnEzzNONLVF3vt5Ew/exec', {
+        params: {
+            gid:0,
+            name: req.body.name,
+            email: req.body.email,
+            comment:req.body.comment
+        }
+      })
+    res.render("campgrounds/calculator");
 });
 
 
