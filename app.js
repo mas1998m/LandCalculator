@@ -24,12 +24,6 @@ app.set("view engine","ejs"); //set ejs as the default view engine
 app.use(express.static('public')); //use "public" directory as the assets directory
 app.use(bodyParser.urlencoded({extended:true})); // use body-parser package to parse the post data
 app.use(methodOverride('_method'));
-//seeds();
-app.use(require('express-session')({
-    secret:"this is my first Web App",
-    resave:false,
-    saveUninitialized: false
-}));
 
 
 //================================
@@ -57,7 +51,7 @@ app.get("/contact",function (req,res) {
     res.render("campgrounds/contact");
 });
 
-app.post("/feedback",function(req,res){
+app.post("/contact",function(req,res){
 
     var link = "https://script.google.com/macros/s/AKfycbz0rycsE1MnAg82Bi6KDKeG7K0lLK0bGaetoEEngQACd2_XP2RpnEzzNONLVF3vt5Ew/exec?gid=0"
     var name = req.body.name;
@@ -66,6 +60,7 @@ app.post("/feedback",function(req,res){
 
 
     link = link+ "&name="
+    res.render("campgrounds/contact");
 });
 
 
@@ -84,6 +79,33 @@ app.post("/calculator",function (req,res) {
          return id[+w]
         });
     }
+
+    String.prototype.toArabicDigits= function(){
+        const numberMap = {
+            '۰': '0',
+            '۱': '1',
+            '۲': '2',
+            '۳': '3',
+            '٤': '4',
+            '٥': '5',
+            '٦': '6',
+            '٧': '7',
+            '۸': '8',
+            '۹': '9',
+        }
+        const inputArray = this.split('');
+        const replacedArray = inputArray.map(char => {
+            if (char in numberMap) {
+                return numberMap[char];
+            } else {
+                return char;
+            }
+        });
+        const replacedString = replacedArray.join('');
+        return replacedString;
+    }
+    data.area= data.area.toString().toArabicDigits();
+
     var price = calculate(data.country,data.type,data.area,data.unit);
     res.render("campgrounds/calculator",{info:data,result:price.toString().toIndiaDigits()});
 });
