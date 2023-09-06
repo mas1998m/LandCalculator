@@ -6,6 +6,19 @@ var bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const PORT = process.env.PORT||'5000';
 
+var currency = {
+    "egypt": "جنيه مصرى",
+    "jordan": "دينار أردنى",
+    "uae": "درهم إماراتى",
+    "bahrain": "دينار بحرينى",
+    "kuwait": "دينار كويتى",
+    "morocco": "درهم مغربى",
+    "ksa": "ريال سعودى",
+    "turkey": "دولار أمريكى",
+    "oman": "ريال عمانى",
+    "qatar": "ريال قطرى",
+    "lebanon": "دولار أمريكى"
+}
 
 app.set("view engine","ejs"); //set ejs as the default view engine
 app.use(express.static('public')); //use "public" directory as the assets directory
@@ -62,7 +75,8 @@ app.post("/calculator",function (req,res) {
         country:req.body.country,
         type:req.body.type,
         area:req.body.area,
-        unit:req.body.unit
+        unit:req.body.unit,
+        curr: currency[req.body.country]
     }
     String.prototype.toIndiaDigits= function(){
         var id= ['۰','۱','۲','۳','٤','٥','٦','٧','۸','۹'];

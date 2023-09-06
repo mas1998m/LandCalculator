@@ -29,7 +29,7 @@
                         <input class="form-control btn btn-primary" type="submit" value="احسب سعر الأرض!">
                     </div>
                 </form>
-                <h1> <% if(typeof result !== 'undefined') {%>السعر الإجمالى: <%=result%><%};%></h1>
+                <h2> <% if(typeof result !== 'undefined') {%>السعر الإجمالى: <%=result%> <%=info.curr%> <%};%></h2>
                 <a href="/contact">تواصل معنا</a><br>
                 <!-- <a href="/">Go to Homepage</a> -->
             </div>
@@ -40,7 +40,7 @@
 
 <script>
   var countryObject = {
-    "jodran": {
+    "jordan": {
       "resident": ["m", "donum"],
       "agriculture": ["m", "donum"],
       "commercial": ["m", "donum"]    
@@ -126,7 +126,7 @@
     "oman" : "سلطنة عمان🇴🇲",
     "qatar" : "قطر🇶🇦",
     "lebanon" : "لبنان🇱🇧",
-    "jodran" : "الأردن🇯🇴"
+    "jordan" : "الأردن🇯🇴"
   }
 
   window.onload = function() {
