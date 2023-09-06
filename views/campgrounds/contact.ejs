@@ -1,0 +1,30 @@
+<%- include('../partials/header')%>
+<section>
+  <div class="container text-center">
+      <h1>رأيك يهمنا</h1>
+      <div class="row text-right ">
+          <div class="col-10 col-sm-9 col-md-6 mx-auto">
+              <form action="/feedback" method="POST">
+                  <div class="form-group">
+                      <label for="name"> الإسم: </label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="الإسم">
+                  </div>    
+                  <div class="form-group">
+                      <label for="exampleInputEmail1">البريد الإلكترونى:</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="ادخل بريدك الإلكترونى">
+                  </div>      
+                  <div class="form-group">
+                      <label for="comment">تعليقك:</label>
+                      <textarea class="form-control"  id="comment" rows="5" name="comment" placeholder="التعليق"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <input class="form-control btn btn-primary" type="submit" value="إرسال">
+                  </div>
+              </form>
+              <!-- <a href="views/campgrounds">View Current Camps</a><br>
+              <a href="/">Go to Homepage</a> -->
+          </div>
+      </div>
+  </div>
+</section>
+<%- include('../partials/footer')%>

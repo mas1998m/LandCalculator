@@ -1,0 +1,61 @@
+
+<%- include('../partials/header');%>
+
+<section>
+    <div class="container">
+        <div class="row my-3">
+<!--            <div class="col-3">-->
+<!--                <div class="list-group">-->
+<!--                    <a href="#" class="list-group-item list-group-item-action active">Info 1</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Info 2</a>-->
+<!--                    <a href="#" class="list-group-item list-group-item-action">Info 3</a>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="col-11 col-md-9  mx-auto">
+                <div class="card">
+                    <img class="card-img-top" src="<%=camp.image%>" alt="Card image cap">
+                    <div class="card-body">
+                        <h6 class="float-right"><%=camp.price%>$/Night</h6>
+                        <h5 class="card-title"><a href="#"><%= camp.name%></a></h5>
+                        <h6 class="float-right">Added By <strong><%= camp.author.name%></strong> on <%= camp.date.toDateString()%></h6>
+                        <p class="card-text"><%=camp.description%></p>
+
+                        <% if(currentUser && camp.author.id.equals(currentUser._id)){%>
+                            <a href="/campgrounds/<%=camp._id%>/edit" class="btn btn-warning">Edit Post</a>
+                            <form method="POST" action="/campgrounds/<%=camp._id%>?_method=DELETE" class="d-inline">
+                                <button class="btn btn-danger">Delete Post</button>
+                            </form>
+                        <%}%>
+
+                    </div>
+                </div>
+
+                <div class="card bg-light my-4">
+                    <div class="card-header">
+                        <a class="btn btn-success float-right" href="/campgrounds/<%=camp._id%>/comments/new">Add New Comment</a>
+                        <h2>Comments</h2>
+                    </div>
+
+                    <%camp.comments.forEach(function (comment) {%>
+                    <div class="card-body">
+                        <h6 class="float-right"><%=comment.time.toDateString()%></h6>
+                        <h5 class="card-title"><%=comment.author.name%></h5>
+                        <p class="card-text"><%=comment.text%></p>
+
+                        <%if(currentUser && comment.author.id.equals(currentUser._id)){%>
+                        <a class="btn btn-warning" href="/campgrounds/<%=camp._id%>/comments/<%=comment._id%>/edit">Edit Comment</a>
+                        <form class="d-inline" action="/campgrounds/<%=camp._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete Comment</button>
+                        </form>
+                        <%}%>
+                    </div>
+                    <%})%>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<%- include('../partials/footer')%>

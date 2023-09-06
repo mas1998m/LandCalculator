@@ -1,0 +1,187 @@
+<%- include('../partials/header')%>
+<section>
+    <div class="container text-center">
+        <h1 id="test">حاسبة أسعار الأراضى</h1>
+        <div class="row ">
+            <div class="col-10 col-sm-9 col-md-6 mx-auto">
+                <form action="/calculator" method="POST">
+                    <div class="form-group">
+                        <select  class="form-control" name="country" id="country_selector">
+                            <option data-image="eg.png" value="placeholder">اختر البلد </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control selectpicker" name="type" id="type">
+                            <option value="placeholder" dir="rtl">اختر نوع الأرض</option>
+                          </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-8">
+                            <input class="form-control" type="text" name="area" id="area" placeholder="المساحة">
+                        </div> 
+                        <div class="form-group col-4">
+                            <select class="form-control" name="unit" id="unit">
+                                <option value="placeholder">اختر وحدة المساحة</option>
+                              </select>
+                        </div>   
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control btn btn-primary" type="submit" value="احسب سعر الأرض!">
+                    </div>
+                </form>
+                <h1> <% if(typeof result !== 'undefined') {%>السعر الإجمالى: <%=result%><%};%></h1>
+                <a href="/contact">تواصل معنا</a><br>
+                <!-- <a href="/">Go to Homepage</a> -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+  var countryObject = {
+    "jodran": {
+      "resident": ["m", "donum"],
+      "agriculture": ["m", "donum"],
+      "commercial": ["m", "donum"]    
+    },
+    "uae": {
+      "resident": ["ft"],
+      "agriculture": ["ft"],
+      "investment": ["ft"]    
+    },
+    "bahrain": {
+      "resident": ["ft","m"],
+      "agriculture": ["ft","m"],
+      "investment": ["ft","m"]    
+    },
+    "kuwait": {
+      "resident": ["m"],
+      "agriculture": ["m"],
+      "commercial": ["m"]    
+    },
+    "ksa": {
+      "resident": ["m"],
+      "industrial": ["m"],
+      "commercial": ["m"],
+      "tourism": ["m"],
+      "agriculture": ["m","acre"]
+    },
+    "egypt": {
+      "resident": ["m"],
+      "industrial": ["m"],
+      "commercial": ["m"],
+      "agriculture": ["m","acre"],
+      "desert": ["m","acre"],
+    },
+    "morocco": {
+      "resident": ["m"],
+      "industrial": ["m"],
+      "commercial": ["m"],
+      "agriculture": ["m","hectare"]
+    },
+    "turkey": {
+      "resident": ["m"],
+      "investment": ["m"],
+      "agriculture": ["m"]
+    },
+    "oman": {
+      "resident": ["m","acre"],
+      "investment": ["m","acre"],
+      "agriculture": ["m","acre"]
+    },
+    "qatar": {
+      "resident": ["ft"],
+      "commercial": ["ft"],
+      "agriculture": ["ft"]
+    },
+    "lebanon": {
+      "resident": ["m"],
+      "industrial": ["m"],
+      "commercial": ["m"],
+      "agriculture": ["m"],
+      "investment" : ["m"]
+    }
+  }
+  var dict = {
+    "resident" : "سكنى",
+    "industrial": "صناعى" ,
+    "commercial":"تجارى" ,
+    "agriculture": "زراعى",
+    "investment" : "استثمارى" ,
+    "desert": "صحراوى" ,
+    "tourism": "سياحى",
+    "ft" : "قدم مربع",
+    "m" : "متر مربع",
+    "acre" : "فدان",
+    "hectare" : "هكتار",
+    "donum" : "دونم",
+    "uae" : "الإمارات العربية المتحدة🇦🇪",
+    "bahrain" : "البحرين🇧🇭",
+    "kuwait" : "الكويت🇰🇼",
+    "ksa" : "المملكة العربية السعودية🇸🇦",
+    "morocco" : "المملكة المغربية🇲🇦",
+    "turkey" : "تركيا🇹🇷",
+    "egypt" : "جمهورية مصر العربية🇪🇬",
+    "oman" : "سلطنة عمان🇴🇲",
+    "qatar" : "قطر🇶🇦",
+    "lebanon" : "لبنان🇱🇧",
+    "jodran" : "الأردن🇯🇴"
+  }
+
+  window.onload = function() {
+    var countrySel = document.getElementById("country_selector");
+    var typeSel = document.getElementById("type");
+    var unitSel = document.getElementById("unit");
+    var areaVal = document.getElementById("area");
+
+    for (var x in countryObject) {
+    countrySel.options[countrySel.options.length] = new Option(dict[x], x);
+    }
+    countrySel.onchange = function() {
+        if(countrySel.value != "placeholder"){
+              //empty Chapters- and Topics- dropdowns
+            unitSel.length = 0;
+            typeSel.length = 0;
+            if(countrySel.options[0].value == "placeholder")
+            countrySel.remove(0);
+            //display correct values
+            for (var y in countryObject[this.value]) {
+                typeSel.options[typeSel.options.length] = new Option(dict[y], y);
+            }
+            var z = countryObject[countrySel.value][typeSel.options[0].value];
+            for (var i = 0; i < z.length; i++) {
+              unitSel.options[unitSel.options.length] = new Option(dict[z[i]], z[i]);
+            }
+        }
+    }
+    typeSel.onchange = function() {
+        //empty Chapters dropdown
+        unitSel.length = 0;
+        //display correct values
+        var z = countryObject[countrySel.value][this.value];
+        for (var i = 0; i < z.length; i++) {
+            unitSel.options[unitSel.options.length] = new Option(dict[z[i]], z[i]);
+        }
+    }
+    <% if(typeof result !== 'undefined') {%>
+    areaVal.value = '<%=info.area%>';
+    countrySel.value = '<%=info.country%>';
+    countrySel.onchange();
+    typeSel.value = '<%=info.type%>';
+    typeSel.onchange();
+    unitSel.value = '<%=info.unit%>';
+
+    <%};%>
+  }
+
+
+
+
+  
+   </script>
+
+  
+  
+
+<%- include('../partials/footer')%>
