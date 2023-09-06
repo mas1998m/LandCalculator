@@ -3,22 +3,9 @@ var express = require("express");
 var app = express();
 var request = require("request");
 var bodyParser = require("body-parser");
-const passport = require ('passport');
-const localStrategy = require('passport-local').Strategy;
 const methodOverride = require("method-override");
 const PORT = process.env.PORT||'5000';
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
-//const socket = require("socket.io-client")("http://localhost:5000/campgrounds/calculator");
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-});
-
-
-server.listen(5000, () => console.log("App listening at localhost:" + 4000));
 
 app.set("view engine","ejs"); //set ejs as the default view engine
 app.use(express.static('public')); //use "public" directory as the assets directory
@@ -87,8 +74,7 @@ app.post("/calculator",function (req,res) {
     res.render("campgrounds/calculator",{info:data,result:price.toString().toIndiaDigits()});
 });
 
-app.listen(PORT,'localhost',function () {
+app.listen(PORT,function () {
     //test if the server is working
     console.log("Listening Now on Port "+ PORT);
-    console.log(process.env);
 });
